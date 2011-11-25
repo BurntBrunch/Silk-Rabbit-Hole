@@ -1,0 +1,88 @@
+#table1{
+border-collapse:collapse;
+}
+
+#table1 td, #table1 th 
+{
+border:1px solid grey;
+padding:3px 7px 2px 7px;
+font-size:14px;
+}
+
+#table1 th 
+{
+text-align:left;
+padding-top:5px;
+padding-bottom:4px;
+background-color:grey;
+color:#ffffff;
+}
+
+#cart {
+	position: relative;
+	top: 4;
+}
+
+.alt {
+	background-color:#F2F2F2;
+}
+
+.flashdata {
+	color:white;
+	background-color:#DE0000;
+	font-weight:bold;
+}
+
+body {
+font-family: verdana, helvetica, sans-serif;
+}
+
+a:link {
+text-decoration:none;
+color: rgb(0,90,10);
+font-weight: bold;
+}
+a:visited {
+text-decoration:none;
+color: rgb(0,90,10);
+font-weight: bold;
+}
+a:hover {
+text-decoration:underline;
+color: rgb(0,165,20);
+font-weight: bold;
+}
+a:active {
+text-decoration:underline;
+color: rgb(0,90,10);
+font-weight: bold;
+}
+
+hr {
+background-color: black;
+}
+
+form {
+margin-bottom:0;
+}
+
+img {
+border: 0;
+}
+
+li { 
+margin: 0px 0px 13px 0px; 
+padding: 0px; 
+}
+
+ul { 
+margin: 1em; 
+padding: 0px; 
+}
+
+.featured_title {
+margin-top: 3px;
+font-size: 13px;
+word-wrap: break-word;
+height: 35px
+}

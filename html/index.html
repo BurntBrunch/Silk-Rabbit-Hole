@@ -1,0 +1,100 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Javascript World Map</title>
+        <link rel="stylesheet" href="css/demo.css" type="text/css" media="screen">
+        <link rel="stylesheet" href="css/demo-print.css" type="text/css" media="print">
+        <script src="js/raphael.js" type="text/javascript"></script>
+        <script src="js/world.js" type="text/javascript"></script>
+        <script src="js/countries.js" type="text/javascript"></script>
+        <script src="js/jquery-1.7.js" type="text/javascript"></script>
+        <script type="text/javascript">        
+            function scale_map(map, sx, sy){
+                for(k in map){
+                    map[k].scale(sx, sy);
+               }
+            }
+            function set_panel(ccode){
+                country = code_country[ccode.toUpperCase()];
+                $('#panel-country').text(country.toLowerCase());
+            }
+            window.onload = function () {
+				var attr = {
+					fill: "#333",
+					stroke: "#888",
+					"stroke-width": .5,
+					"stroke-linejoin": "round"
+				};
+				
+				var map = {};
+				var R = Raphael("holder");
+				render_map(R,map,attr);
+
+                function clear_state(st){
+                    if(st != null)
+                    {
+                        st.animate({fill: "#333", stroke: "#666"}, 300);
+				        R.safari();
+                    }
+                }
+	            
+                var clicked_state = null;
+				for (var state in map) {							        
+    	            map[state].color = Raphael.getColor();
+	                (function (st, state) {
+						st[0].style.cursor = "pointer";
+                        var bbox = st.getBBox();
+                        st[0].midx = bbox.x + bbox.width/2;
+                        st[0].midy = bbox.y + bbox.height/2;
+
+						st[0].onmouseover = function () {
+							st.animate({fill: st.color, stroke: "#ccc"}, 300);
+							R.safari();
+						};
+						st[0].onmouseout = function () {
+                            if(st != clicked_state)
+                                clear_state(st);
+                        };
+						
+						st[0].onclick = function () {
+                            if(st != clicked_state)
+                            {
+                                clear_state(clicked_state);
+							    set_panel(state);
+                                clicked_state = st;
+                            }
+						};
+					})(map[state], state);
+				}; // end for
+				
+				
+
+				function lon2x(lon) {
+					var xfactor = 2.6938;
+					var xoffset = 465.4;
+					var x = (lon * xfactor) + xoffset;
+					return x;
+				}
+				function lat2y(lat) {
+					var yfactor = -2.6938;
+					var yoffset = 227.066;
+					var y = (lat * yfactor) + yoffset;
+					return y;
+				}
+
+				var city_attr = {
+					fill: "#0f0",
+					stroke: "none",
+					opacity: .3
+				};
+			};
+        </script>
+    </head>
+    <body>
+        <div id="holder" style="position:relative;">
+			<div id="Tokyo" class="city_hover"><span class="c_label">Hello, Tokyo</span></div>
+        </div>
+        <div id="panel"><span id="panel-country"></span></div> 
+</body>
+</html>

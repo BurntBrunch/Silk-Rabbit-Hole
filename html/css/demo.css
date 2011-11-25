@@ -1,0 +1,58 @@
+body {
+    background: #333;
+    color: #fff;
+    font: 300 100.1% "Helvetica Neue", Helvetica, "Arial Unicode MS", Arial, sans-serif;
+}
+#holder {
+    float: left;
+    min-height: 400px;
+    margin: 0 auto;
+    width: 80%;
+}
+#panel{
+    float: right;
+    width: 17%;
+    background: #666;
+    min-height: 350px;
+    font-size: 9pt;
+    padding: 10px;
+    text-indent: -5px;
+}
+#panel h5{
+    padding-top: 0;
+    margin-top: 0;
+    font-size: 14pt;
+}
+#panel h6{
+    display: inline;
+    font-size: 10pt;
+}
+#panel-country{
+    text-transform: capitalize;
+    text-align: center;
+}
+p a {
+	color: #666;
+}
+
+.city_hover
+{
+	position: absolute;
+	display: none;
+	padding-left: 10px;
+	width: auto;
+	z-index: 2;
+	background-image: url(../img/arrow.gif);
+	background-repeat: no-repeat;
+	background-position: 0 10px;
+}
+
+.city_hover .c_label
+{
+	display: block;
+	padding: 10px;
+	color: #000;
+	background-color: #fff;
+	/* IE fix */
+	overflow: hidden;
+}
