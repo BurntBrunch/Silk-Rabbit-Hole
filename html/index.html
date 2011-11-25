@@ -6,8 +6,11 @@
         <link rel="stylesheet" href="css/demo.css" type="text/css" media="screen">
         <link rel="stylesheet" href="css/demo-print.css" type="text/css" media="print">
         <script src="js/raphael.js" type="text/javascript"></script>
+        <script src="js/scale.raphael.js" type="text/javascript"></script>
         <script src="js/world.js" type="text/javascript"></script>
         <script src="js/countries.js" type="text/javascript"></script>
+        <script src="js/stats.js" type="text/javascript"></script>
+        <script src="js/stats-names.js" type="text/javascript"></script>
         <script src="js/jquery-1.7.js" type="text/javascript"></script>
         <script type="text/javascript">        
             function scale_map(map, sx, sy){
@@ -28,8 +31,17 @@
 				};
 				
 				var map = {};
-				var R = Raphael("holder");
+				var R = Raphael("holder", 1000, 500);
 				render_map(R,map,attr);
+                function resizePaper(){
+                    var win = $(this);
+                    var paper = $("#holder");
+
+                    R.setSize(paper.width(), paper.width()/2, true, false);
+                    R.setViewBox(0,0,1000, 500, true);
+                }
+                resizePaper();
+                $(window).resize(resizePaper); 
 
                 function clear_state(st){
                     if(st != null)
