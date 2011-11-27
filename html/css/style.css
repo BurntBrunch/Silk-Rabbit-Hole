@@ -9,23 +9,47 @@ body {
     margin: 0 auto;
     width: 80%;
 }
+#footer{
+    font-size: 0.8em;
+    color: #666;
+    clear: both;
+    text-align: center;
+}
+#title{
+    color: #888;
+    font-family: 'Oswald', sans-serif;
+    font-size: 26pt;
+    text-align: center;
+    margin-bottom: 0.5em;
+}
 #panel{
     float: right;
+    display:none;
     width: 17%;
-    background: #666;
+    background: #444;
     min-height: 350px;
-    font-size: 9pt;
-    padding: 10px;
-    text-indent: -5px;
+    font-size: 10pt;
+    padding: 1em;
 }
-#panel h5{
-    padding-top: 0;
-    margin-top: 0;
+#panel ul{
+    list-style: none;
+    margin: 0 0 0.6em 0;
+    padding: 0 0 0 1.5em;
+}
+#panel li{
+    margin: 0.1em;
+    color: #ccc;
+}
+#panel h1,h2,h3,h4,h5,h6{
+    padding: 0;
+    margin: 0;
+    color: #eee;
+}
+#panel h2{
     font-size: 14pt;
 }
 #panel h6{
-    display: inline;
-    font-size: 10pt;
+    font-size: 12pt;
 }
 #panel-country{
     text-transform: capitalize;
