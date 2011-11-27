@@ -5,7 +5,6 @@
         <title>Down the silk rabbit hole</title>
         <link rel="stylesheet" href="css/style.css" type="text/css" media="screen">
         <script src="js/raphael.js" type="text/javascript"></script>
-        <script src="js/scale.raphael.js" type="text/javascript"></script>
         <script src="js/world.js" type="text/javascript"></script>
         <script src="js/countries.js" type="text/javascript"></script>
         <script src="js/stats_countries.js" type="text/javascript"></script>
@@ -33,7 +32,7 @@
                 append_country_stats(panel, ccode);
                 panel.fadeIn('fast');
             }
-            window.onload = function () {
+            $(function () {
 				var attr = {
 					fill: "#333",
 					stroke: "#666",
@@ -108,12 +107,18 @@
 					var y = (lat * yfactor) + yoffset;
 					return y;
 				}
-			};
+			});
         </script>
     </head>
     <body>
         <div id="title">Down the silk rabbit hole</div>
-        <div class="page">
+        <div id="menu"> Type:
+            <ul>
+            <li><a href="#">Map</a> 
+            <li class="last"><a href="#">Overall</a>
+            </ul>
+        </div>
+        <div class="page map">
             <div id="holder"></div>
             <div id="panel"></div> 
         </div>

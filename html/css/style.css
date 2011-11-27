@@ -1,7 +1,18 @@
 body {
     background: #333;
-    color: #fff;
+    color: #ccc;
     font: 300 100.1% "Helvetica Neue", Helvetica, "Arial Unicode MS", Arial, sans-serif;
+}
+a{
+    text-decoration:none;
+    border-bottom: 1px dashed #ccc;
+    color: #ccc;
+}
+a:visited{
+}
+a:hover{
+    border-bottom: 1px solid #ccc;
+    color: #ccc;
 }
 #holder {
     float: left;
@@ -55,28 +66,26 @@ body {
     text-transform: capitalize;
     text-align: center;
 }
-p a {
-	color: #666;
+#menu {
+    text-align: center;
 }
 
-.city_hover
-{
-	position: absolute;
-	display: none;
-	padding-left: 10px;
-	width: auto;
-	z-index: 2;
-	background-image: url(../img/arrow.gif);
-	background-repeat: no-repeat;
-	background-position: 0 10px;
-}
+    #menu ul {
+        display: inline;
+        list-style:none;
+        text-transform: lowercase;
+        padding: 0;
+        margin: 0;
+    }
 
-.city_hover .c_label
-{
-	display: block;
-	padding: 10px;
-	color: #000;
-	background-color: #fff;
-	/* IE fix */
-	overflow: hidden;
-}
+    #menu ul li{
+        display: inline;
+        background-color: #444;
+        padding: 0.5em 0 0.5em 0.5em;
+        margin: 0;
+    }
+
+    
+    #menu ul .last{
+        padding-right: 0.5em;
+    }
