@@ -8,12 +8,13 @@ a{
     border-bottom: 1px dashed #ccc;
     color: #ccc;
 }
-a:visited{
-}
-a:hover{
-    border-bottom: 1px solid #ccc;
-    color: #ccc;
-}
+    a:visited{
+    }
+    a:hover{
+        border-bottom: 1px solid #ccc;
+        color: #ccc;
+    }
+
 #holder {
     float: left;
     min-height: 400px;
@@ -38,36 +39,38 @@ a:hover{
     display:none;
     width: 17%;
     background: #444;
-    min-height: 350px;
-    font-size: 10pt;
+    min-height: 20%;
+    font-size: 9pt;
     padding: 1em;
 }
-#panel ul{
-    list-style: none;
-    margin: 0 0 0.6em 0;
-    padding: 0 0 0 1.5em;
-}
-#panel li{
-    margin: 0.1em;
-    color: #ccc;
-}
-#panel h1,h2,h3,h4,h5,h6{
-    padding: 0;
-    margin: 0;
-    color: #eee;
-}
-#panel h2{
-    font-size: 14pt;
-}
-#panel h6{
-    font-size: 12pt;
-}
-#panel-country{
-    text-transform: capitalize;
-    text-align: center;
-}
+    #panel ul{
+        list-style: none;
+        margin: 0 0 0.6em 0;
+        padding: 0 0 0 1.5em;
+    }
+    #panel li{
+        margin: 0.1em;
+        color: #ccc;
+    }
+    #panel h1,h2,h3,h4,h5,h6{
+        padding: 0;
+        margin: 0;
+        color: #eee;
+    }
+    #panel h2{
+        font-size: 13pt;
+    }
+    #panel h6{
+        font-size: 11pt;
+    }
+    #panel-country{
+        text-transform: capitalize;
+        text-align: center;
+    }
+
 #menu {
     text-align: center;
+    margin-bottom: 1.5em;
 }
 
     #menu ul {
