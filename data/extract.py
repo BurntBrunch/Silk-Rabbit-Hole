@@ -208,7 +208,7 @@ def collate_by_country(results):
 
 results = extract_results()
 by_country = collate_by_country(results)
-template = "stats = %s"
+template = "stats_countries = %s"
 
 with open('stats_countries.js', 'w') as f:
     f.write(template % (json.dumps(by_country),))
