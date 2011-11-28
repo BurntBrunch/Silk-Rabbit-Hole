@@ -8,7 +8,11 @@ function setup_links()
     links.each(function (idx, val){
         $(val).click(function(){
             $(pages[currentPage]).fadeOut('fast', function(){
-                $(pages[idx]).fadeIn('fast');
+                var page = $(pages[idx]);
+                page.trigger("willShow");
+                page.fadeIn('fast', function(){
+                    $(this).trigger("didShow");
+                });
                 currentPage = idx;
             });
         });

@@ -25,14 +25,19 @@ function setup_map() {
     var map = {};
     var R = Raphael("holder", 1000, 500);
     render_map(R,map,attr);
+    
+    var paper = $("#holder");
     function resizePaper(){
         var win = $(this);
-        var paper = $("#holder");
 
-        R.setSize(paper.width(), paper.width()/2, true, false);
-        R.setViewBox(0,0,1000, 500, true);
+        if(paper.is(':visible')){
+            R.setSize(paper.width(), paper.width()/2, true, false);
+            R.setViewBox(0,0,1000, 500, true);
+        }
     }
     resizePaper();
+    var page = paper.parent();
+    page.bind('didShow', resizePaper);
     $(window).resize(resizePaper); 
 
     function clear_state(st){
