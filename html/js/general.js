@@ -10,4 +10,7 @@ function setup_links()
             });
         });
     });
+    pages.hide();
+    pages.first().show();
+    //pages.last().show();
 }

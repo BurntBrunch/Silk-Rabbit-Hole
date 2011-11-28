@@ -206,9 +206,38 @@ def collate_by_country(results):
 
     return stats
 
+def collate_drugs(results):
+    stats=[] 
+
+    # calculate overall drug distribution (Cannabis combined)
+    tmp = {}
+    for r in results:
+        key = r[0][0]
+        if key in tmp:
+            tmp[key] += len(r[1])
+        else:
+            tmp[key] = len(r[1])
+
+    total_num = sum(tmp.itervalues())
+
+    drugs = []
+    for cat in tmp:
+        drugs.append({ 'label': cat, 'data': tmp[cat]/float(total_num)})
+    stats.append(("Drug types", drugs))
+
+    return stats
+
 results = extract_results()
 by_country = collate_by_country(results)
-template = "stats_countries = %s"
+by_drugs = collate_drugs(results)
+
+template_countries = "stats_countries = %s"
+template_drugs = "stats_drugs = %s"
 
 with open('stats_countries.js', 'w') as f:
-    f.write(template % (json.dumps(by_country),))
+    f.write(template_countries % (json.dumps(by_country),))
+
+with open('stats_drugs.js', 'w') as f:
+    f.write(template_drugs % (json.dumps(by_drugs),))
+
+

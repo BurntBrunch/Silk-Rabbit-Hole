@@ -14,6 +14,9 @@ a{
         border-bottom: 1px solid #ccc;
         color: #ccc;
     }
+.page {
+    clear: both;
+}
 
 #holder {
     float: left;
@@ -92,3 +95,13 @@ a{
     #menu ul .last{
         padding-right: 0.5em;
     }
+
+.graph{
+    width: 300px;
+    height: 300px;
+    color: #fff;
+}
+.graph-container h3{
+    text-align: center;
+    width: 300px;
+}
