@@ -223,7 +223,26 @@ def collate_drugs(results):
     drugs = []
     for cat in tmp:
         drugs.append({ 'label': cat, 'data': tmp[cat]/float(total_num)})
-    stats.append(("Drug types", drugs))
+    stats.append(("Drug types", drugs, 'pie'))
+
+    # calculate distribution of cannabis sub-types
+    cannabis = filter(lambda x: x[0][0] == "Cannabis", results)
+    tmp = {}
+    for r in cannabis:
+        key = r[0][1]
+        if key in tmp:
+            tmp[key] += len(r[1])
+        else:
+            tmp[key] = len(r[1])
+
+    total_num = sum(tmp.itervalues())
+    tmp = list(tmp.iteritems())
+    tmp = sorted(tmp, key=itemgetter(1), reverse=True)
+
+    drugs = []
+    for cat, val in tmp:
+        drugs.append({ 'label': cat, 'data': val/float(total_num)})
+    stats.append(("Cannabis types", drugs, 'pie'))
 
     return stats
 

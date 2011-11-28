@@ -101,7 +101,12 @@ a{
     height: 300px;
     color: #fff;
 }
-.graph-container h3{
+.graph-container {
+    margin: 20px;
+    float: left;
+    width: 300px;
+}
+.graph-container .title{
     text-align: center;
     width: 300px;
 }
