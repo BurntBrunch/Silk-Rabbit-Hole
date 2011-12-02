@@ -1,8 +1,8 @@
 function pie_graph(holder, title, data, idx){
     var id = "graph-" + idx;
     var idHolder =  id + '-holder';
-    var graphContainer = $('<span class="graph-container" id="' + id + '"><div class="title">' + 
-                            title + '</div><div class="graph" id="' + idHolder + '"></div></span>');
+    var graphContainer = $('<span class="graph-container-pie" id="' + id + '"><div class="title">' + 
+                            title + '</div><div class="graph-pie" id="' + idHolder + '"></div></span>');
     holder.append(graphContainer);
 
     var graphHolder = $("#" + idHolder);
@@ -48,13 +48,62 @@ function pie_graph(holder, title, data, idx){
         var labelBackground = label.prev();
 
         maxZIdx++;
-        
+
+        // Bring the label to the top
         label.css({'z-index': maxZIdx});
         labelBackground.css({'z-index': maxZIdx});
     }
 
     graphHolder.bind("plothover", pieHover);
 }
+
+function bar_graph(holder, title, data, idx){
+    var id = "graph-" + idx;
+    var idHolder =  id + '-holder';
+    var graphContainer = $('<span class="graph-container-bar" id="' + id + '"><div class="title">' + 
+                            title + '</div><div class="graph-bar" id="' + idHolder + '"></div></span>');
+    holder.append(graphContainer);
+
+    var graphHolder = $("#" + idHolder);
+        
+    $.plot(graphHolder, data, 
+        { series: { bars: {
+                           show: true,
+                           align: 'center',
+                           horizontal: false,
+                          } 
+                 }, 
+          legend: { show: false },
+          xaxis: {tickFormatter: function(idx){
+                    if(idx >= 0 && idx < data.length){
+                        var spaceEvery = 8;
+                        var t = data[idx].label;
+                        var len = t.length;
+                        var spacesToInsert = len/spaceEvery;
+                        var spacesInserted = 0;
+                        if( spacesToInsert >= 1){
+                            for(var i=1; i<=spacesToInsert; i++){
+                                var pos = i*spaceEvery + spacesInserted; 
+                                t = t.slice(0, pos) + "<br>" + t.slice(pos);
+                                spacesInserted++;
+                            }
+                        }
+                        return t;
+                    }
+                    return "";
+                  },
+                  ticks: data.length,
+                  tickDecimals: 1,
+                  tickLength: 20,
+                  minTickSize: 1,
+          },
+          grid: {
+              hoverable: true,
+              clickable: true
+            }
+    });
+}
+
 function setup_drugs(){
     var holder = $("#stats");
 
@@ -67,6 +116,8 @@ function setup_drugs(){
         
         if(type == "pie"){
             pie_graph(holder, title, data, k);
+        } else if (type == "bar"){
+            bar_graph(holder, title, data, k);
         }
     }
 }

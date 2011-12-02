@@ -1,10 +1,11 @@
-# coding = utf-8
+# encoding: utf-8
 
 from os.path import walk, isfile, join
 from lxml.html import parse
 from operator import attrgetter, itemgetter
 from itertools import islice, izip
 from countries import *
+from copy import deepcopy
 import csv
 import json
 
@@ -69,7 +70,16 @@ def extract_results():
 
             cells[2] = username[0] # the actual name
             cells.insert(3, username[1]) # the score
-            table.append({'name': cells[0], 'price': cells[1], 'username': cells[2], 'user_score': cells[3], 'country': cells[4]})
+            row = {'name': cells[0], 
+                   'price': cells[1], 
+                   'username': cells[2], 
+                   'user_score': cells[3], 
+                   'country': cells[4]}
+            table.append(row)
+
+            price = row['price'].replace(u'฿', '').replace(',', '')
+            price = float(price)
+            row['price'] = price # in bitcoins
 
     results.append([curr_cat, table])
     return results
@@ -87,10 +97,10 @@ def get_csv(results):
     return out.getvalue()
 
 
-def collate_by_country(results):
+def collate_by_country(res):
     # Extract seen countries
     seen_in_data = []
-    for r in results:
+    for r in res:
         for t in r[1]:
             name = t['country'].lower().replace("the", "").strip()
             seen_in_data.append(name)
@@ -129,6 +139,7 @@ def collate_by_country(results):
 
 
     removed_items = 0
+    results = deepcopy(res)
     old_items_count = sum(map(len, [x[1] for x in results]))
     for r in results:
         removed = len(r[1])
@@ -206,7 +217,7 @@ def collate_by_country(results):
 
     return stats
 
-def collate_drugs(results):
+def collate_charts(results, countries_results):
     stats=[] 
 
     # calculate overall drug distribution (Cannabis combined)
@@ -235,20 +246,36 @@ def collate_drugs(results):
         else:
             tmp[key] = len(r[1])
 
-    total_num = sum(tmp.itervalues())
+    total_cannabis = sum(tmp.itervalues())
     tmp = list(tmp.iteritems())
     tmp = sorted(tmp, key=itemgetter(1), reverse=True)
 
     drugs = []
     for cat, val in tmp:
-        drugs.append({ 'label': cat, 'data': val/float(total_num)})
+        drugs.append({ 'label': cat, 'data': val/float(total_cannabis)})
     stats.append(("Cannabis types", drugs, 'pie'))
+
+    # calculate percent of listings with country
+    with_country = float(sum([x['num_listings'] for x in countries_results.itervalues()]))
+    print "Listings with country:", with_country, "/", total_num
+    stats.append(("Listings with country", [{'label': "With country", 'data': with_country/total_num}, 
+                                            {'label': 'Without country', 'data': 1-(with_country/total_num)}], 'pie'));
+    
+    # calculate average price per category (cannabis split)
+    tmp = [(r[0], len(r[1]), [x['price'] for x in r[1]]) for r in results if len(r[1]) > 0]
+    tmp = [(" - ".join(r[0]), sum(r[2])/float(r[1])) for r in tmp]
+    
+    tmp = sorted(tmp, key=itemgetter(1), reverse=True)
+    drugs = []
+    for idx, (drug, price) in enumerate(tmp):
+        drugs.append({ 'label': drug, 'data': [[idx, price]]})
+    stats.append(("Average price per type", drugs, 'bar'))
 
     return stats
 
 results = extract_results()
 by_country = collate_by_country(results)
-by_drugs = collate_drugs(results)
+by_drugs = collate_charts(results, by_country)
 
 template_countries = "stats_countries = %s"
 template_drugs = "stats_drugs = %s"
