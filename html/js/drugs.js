@@ -74,17 +74,21 @@ function bar_graph(holder, title, data, idx){
                           } 
                  }, 
           legend: { show: false },
-          xaxis: {tickFormatter: function(idx){
+          xaxis: {
+              tickFormatter: function(idx){
                     if(idx >= 0 && idx < data.length){
-                        var spaceEvery = 8;
-                        var t = data[idx].label;
-                        var len = t.length;
-                        var spacesToInsert = len/spaceEvery;
-                        var spacesInserted = 0;
+                        var spaceEvery = 8,
+                            t = data[idx].label,
+                            len = t.length,
+                            spacesToInsert = len/spaceEvery,
+                            spacesInserted = 0,
+                            space = "<br>";
+
                         if( spacesToInsert >= 1){
-                            for(var i=1; i<=spacesToInsert; i++){
-                                var pos = i*spaceEvery + spacesInserted; 
-                                t = t.slice(0, pos) + "<br>" + t.slice(pos);
+                            for(var i=i; i<=spacesToInsert; i++){
+                                var pos = i*spaceEvery + 
+                                    spacesInserted*space.length;
+                                t = t.slice(0, pos) + space + t.slice(pos);
                                 spacesInserted++;
                             }
                         }
@@ -102,6 +106,21 @@ function bar_graph(holder, title, data, idx){
               clickable: true
             }
     });
+
+    var logged = false;
+    function barHover(evt, pos, obj){
+        graphHolder.children().filter('.popup').remove();
+        if(!logged){
+            console.log(graphHolder);logged=true;}
+
+        if(!obj)
+            return;
+
+        var popup = $('<span class="popup">' + obj.datapoint[1] + '</span>');
+
+        graphHolder.append(popup);
+    }
+    graphHolder.bind("plothover", barHover);
 }
 
 function setup_drugs(){

@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-from os.path import walk, isfile, join
+from os.path import walk, isfile, isdir, join
 from lxml.html import parse
 from operator import attrgetter, itemgetter
 from itertools import islice, izip
@@ -12,7 +12,7 @@ import json
 def get_files(arg, dirname, fnames):
     todel = []
     for fname in fnames:
-        if fname.endswith('_files') or fname.endswith(".py"):
+        if not isdir(join(dirname, fname)) and not fname.endswith('.html'):
             todel.append(fname)
     for i in todel:
         del(fnames[fnames.index(i)])
@@ -29,12 +29,14 @@ def extract_results():
     res = []
     walk('.', get_files, res)
 
-    files = [(x[2:].split('/'), join(x,y)) for x,y in res]
+    files = sorted([(x[2:].split('/'), join(x,y)) for x,y in res])
     del res
 
     results = []
     curr_cat = None
     table = []
+
+    printed_exch_rate = False
     for file_ in files:
         cat = file_[0]
         if curr_cat != cat:
@@ -43,11 +45,24 @@ def extract_results():
                 table = []
 
             curr_cat = cat
-
+        
+        filename = file_[1]
         file_ = file(file_[1]) 
 
         root = parse(file_).getroot()
         rows = root.cssselect("#table1 tr")[1:]
+
+        exchange_rate = root.cssselect("table tr")[-1].cssselect("p")[0].text
+        exchange_rate = exchange_rate.split("=")
+        exchange_rate = map(unicode.strip, exchange_rate)
+
+        assert exchange_rate[1][0] == "$"
+        exchange_rate = float(exchange_rate[1][1:])
+
+        if not printed_exch_rate:
+            print "Exchange rate is:", exchange_rate
+            printed_exch_rate = True
+        
 
         for row in rows:
             children = row.getchildren()
@@ -79,7 +94,8 @@ def extract_results():
 
             price = row['price'].replace(u'฿', '').replace(',', '')
             price = float(price)
-            row['price'] = price # in bitcoins
+            row['price_bitcoins'] = price # in bitcoins
+            row['price_dollars'] = price*exchange_rate
 
     results.append([curr_cat, table])
     return results
@@ -262,14 +278,20 @@ def collate_charts(results, countries_results):
                                             {'label': 'Without country', 'data': 1-(with_country/total_num)}], 'pie'));
     
     # calculate average price per category (cannabis split)
-    tmp = [(r[0], len(r[1]), [x['price'] for x in r[1]]) for r in results if len(r[1]) > 0]
-    tmp = [(" - ".join(r[0]), sum(r[2])/float(r[1])) for r in tmp]
+    tmp = [(r[0], len(r[1]), [x['price_dollars'] for x in r[1]]) for r in results if len(r[1]) > 0]
+    tmp = [(r[0], sum(r[2])/float(r[1])) for r in tmp]
     
     tmp = sorted(tmp, key=itemgetter(1), reverse=True)
     drugs = []
     for idx, (drug, price) in enumerate(tmp):
+        if len(drug) == 1: 
+            drug = drug[0]
+        else:
+            drug = "%s (%s)" % (drug[0], " ".join(drug[1:]))
+
+        price = round(price, 2) 
         drugs.append({ 'label': drug, 'data': [[idx, price]]})
-    stats.append(("Average price per type", drugs, 'bar'))
+    stats.append(("Average price per drug type (in USD)", drugs, 'bar'))
 
     return stats
 
