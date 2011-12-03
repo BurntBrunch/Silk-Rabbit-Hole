@@ -292,6 +292,27 @@ def collate_charts(results, countries_results):
         price = round(price, 2) 
         drugs.append({ 'label': drug, 'data': [[idx, price]]})
     stats.append(("Average price per drug type (in USD)", drugs, 'bar'))
+    
+    # calculate top users overall (by listings)
+    tmp = {}
+    for r in results:
+        for listing in r[1]:
+            name = listing['username']
+            country = listing['country']
+
+            tup = (name, country)
+            if tup not in tmp:
+                tmp[tup] = 1
+            else:
+                tmp[tup] += 1
+
+    tmp = sorted(list(tmp.iteritems()), key=itemgetter(1), reverse=True)[:10]
+    users = []
+    for idx, ((user, country), listings) in enumerate(tmp):
+        label = "%s (%s)" %( user, country )
+
+        users.append( {'label': label, 'data': [[idx, listings]]})
+    stats.append(("Top sellers by # of listings", users, 'bar'))
 
     return stats
 
