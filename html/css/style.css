@@ -115,13 +115,15 @@ a{
     height: 100%;
 }
 .graph-pie .pieLabel {
-    color: #444444;
+    color: #fff;
+    font-weight: bold;
+    text-shadow: black 0.1em 0.1em 0.2em;
 }
 .graph-container-pie {
     margin: 20px;
     float: left;
-    width: 300px;
-    height: 300px;
+    width: 320px;
+    height: 320px;
 }
 .title{
     text-align: center;
