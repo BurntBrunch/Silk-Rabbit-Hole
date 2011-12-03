@@ -18,6 +18,17 @@ a{
     clear: both;
 }
 
+#about {
+    background-color: #444;
+    padding: 20px;
+    max-width: 750px;
+    margin: 0 auto;
+}
+
+#about h2 {
+    font-size: 1.1em;
+}
+
 #holder {
     float: left;
     min-height: 400px;

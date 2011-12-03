@@ -99,6 +99,7 @@ function bar_graph(holder, title, data, idx){
                   ticks: data.length,
                   tickDecimals: 1,
                   tickLength: 20,
+                  tickColor: '#999',
                   minTickSize: 1,
           },
           grid: {
